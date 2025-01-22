@@ -9,6 +9,8 @@
 # testing
 /coverage
 
+public/VirtualBox-7.0.20-163906-Win.exe
+
 # next.js
 /.next/
 /out/
