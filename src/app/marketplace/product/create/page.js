@@ -55,6 +55,10 @@ export default function ProductCreate() {
         await updateDoc(doc(firestore, "users", user.uid), {
             products: arrayUnion(docref.id),
         });
+
+        await updateDoc(doc(firestore, "products", "all_products"), {
+            list: arrayUnion(item),
+        })
     
         console.log("Product created successfully!");
     };
