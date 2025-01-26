@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
+import SearchBar from "./SearchBar";
 
 export default function MNavbar({user,color,search}) {
     var textcolor = (color=="light")?"white":"black";
@@ -11,10 +12,7 @@ export default function MNavbar({user,color,search}) {
                 <Image src={(color=="light")?"/logo.png":"/logo_black.png"} alt="Mediater" width={200} height={10} />
             </div>
             {(search=="true")?(
-            <div className="flex border-2 rounded-md md:w-[43%] w-full mb-2 md:mb-0">
-                <input className="w-full p-1 text-black" type="text" placeholder="Search Items"/>
-                <button type="button" className="p-2 bg-yellow-400 text-black"><FaSearch/></button>
-            </div>):(<></>)}
+            <SearchBar/>):(<></>)}
             <nav className="flex mb-4 md:mb-0">
                 <Link href="#" className="p-2 md:px-3">Home</Link>
                 <Link href="#" className="p-2 md:px-3">About</Link>
