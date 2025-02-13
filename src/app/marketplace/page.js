@@ -12,6 +12,18 @@ function Marketplace() {
     const [user,setUser] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
     const router = useRouter();
+    const [products, setProducts] = useState(null);
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/products');
+            const data = await response.json();
+            console.log(data);
+            setProducts(data.products);
+            } catch (error) {
+                console.error(error);
+            }
+    };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (curuser) => {
@@ -23,29 +35,39 @@ function Marketplace() {
                 router.push("/login");
             }
         });
+        fetchProducts();
+
+        console.log(products);
 
         return () => unsubscribe();
     },[]);
 
-    
-
-    return(
-        <div className="flex flex-col h-screen bg-bgBlue">
-            <MNavbar user={user} color={"light"} search={"true"}/>
-            <div className="flex w-[100%] bg-white md:p-2 gap-1 justify-center items-center">
-                <div className=" border-black border-[1px] w-[20%] h-[100%] justify-center items-center hidden md:block">
-                    
-                </div>
-                <div className=" border-black border-[1px] md:w-[80%] h-auto p-1 space-y-1">
-                    <ItemCard info={{name:"Boost Mobile | Apple iPhone 16 Pro (512 GB) - Desert Titanium [Locked]. Apple Intelligence.", price:"100.00", address:"123 Baker Street Springfield, IL 62704 United States", image:"/clip_art_furniture.jpg"}}/>
-                    <ItemCard info={{name: "Samsung Galaxy S23 Ultra (1 TB) - Phantom Black [Unlocked]", price: "1,199.99", address: "456 Elm Street, Apt 5, Los Angeles, CA 90001, United States", image: "/clip_art_furniture.jpg"}} />
-                    <ItemCard info={{name: "Sony WH-1000XM5 Wireless Noise-Canceling Headphones", price: "349.99", address: "789 Maple Avenue, Suite 10, San Francisco, CA 94105, United States", image: "/clip_art_furniture.jpg"}} />
-                    <ItemCard info={{name: "Dell XPS 15 Laptop (16 GB RAM, 512 GB SSD)", price: "1,499.99", address: "1010 Birch Street, Denver, CO 80202, United States", image: "/clip_art_furniture.jpg"}} />
-                    <ItemCard info={{name: "Dell XPS 15 Laptop (16 GB RAM, 512 GB SSD)", price: "1,499.99", address: "1010 Birch Street, Denver, CO 80202, United States", image: "/clip_art_furniture.jpg"}} />
+    if(!products) {
+        return(
+            <div className="text-xl">
+                Loading
+            </div>
+        );
+    } else {
+        return(
+            <div className="flex flex-col h-screen bg-bgBlue">
+                <MNavbar user={user} color={"light"} search={"true"}/>
+                <div className="flex w-[100%] bg-white md:p-2 gap-1 justify-center items-center">
+                    <div className=" border-black border-[1px] w-[20%] h-[100%] justify-center items-center hidden md:block">
+                        
+                    </div>
+                    <div className="border-black border-[1px] md:w-[80%] h-auto grid-cols-1 p-1">
+                        {products &&
+                            products.map(({ id, image, price, name, address, route }) => (
+                                <div key={id} className="h-full">
+                                    <ItemCard info={{ name, price, address, image, route }} />
+                                </div>
+                            ))}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Marketplace;
