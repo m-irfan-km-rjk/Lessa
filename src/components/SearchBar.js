@@ -37,7 +37,7 @@ export default function SearchBar() {
                         setSuggView(false);
                     }
                 }} />
-                {suggview && <div className="absolute top-9 flex w-full flex-col bg-white text-black border-gray-400 border-2 shadow-lg">
+                {suggview && <div className="absolute top-9 z-10 flex w-full flex-col bg-white text-black border-gray-400 border-2 shadow-lg">
                     {suggestions.map((sugg) => {
                         return <div key={""} className="p-1 hover:bg-gray-100 cursor-pointer border-b-2"><FaSearch/>{sugg}</div>
                     })}

@@ -6,6 +6,7 @@ import { auth } from "../../../config";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { IoFilter } from "react-icons/io5";
 
 function Marketplace() {
 
@@ -53,8 +54,9 @@ function Marketplace() {
             <div className="flex flex-col h-screen bg-bgBlue">
                 <MNavbar user={user} color={"light"} search={"true"}/>
                 <div className="flex w-[100%] bg-white md:p-2 gap-1 justify-center items-center">
-                    <div className=" border-black border-[1px] w-[20%] h-[100%] justify-center items-center hidden md:block">
-                        
+                    <div className=" border-black border-[1px] w-[20%] h-[100%] p-2 justify-center items-center hidden md:block">
+                        <div className="flex justify-center items-center text-lg gap-2"><IoFilter/>Filter</div>
+                        <div className=""></div>
                     </div>
                     <div className="border-black border-[1px] md:w-[80%] h-auto grid-cols-1 p-1">
                         {products &&
