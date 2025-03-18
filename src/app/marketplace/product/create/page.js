@@ -193,34 +193,129 @@ export default function ProductCreate() {
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     };
 
-    return(
-        <div className="bg-bgBlue w-screen h-screen flex flex-col space-y-2">
-            <MNavbar color={"light"} user={user}/>
-            <div className="flex justify-center items-center w-full h-full bg-gray-200 py-2 px-2">
-                <div className="flex flex-col bg-white bg-opacity-90 rounded-lg shadow-lg p-6 w-full h-full space-y-4 md:w-[50%] md:max-h-[98vh] overflow-auto">
-                    <p className="text-3xl font-extrabold md:text-center text-black py-1">Add a New Rental Item</p>
-                    {(category===null) && <div className="p-2 space-y-2">
-                        <p className="p-2">Select the Category</p>
-                        {marketplaceCategories.map((item,key) => {
-                            return(
-                                <button className="border-gray-100 flex p-3 text-lg gap-3 hover:bg-gray-100 cursor-pointer w-full" onClick={() => {
-                                    setCategory(key);
-                                }}><span className="text-2xl">{item.icon}</span>{item.category}</button>
-                                
-                            );
-                        })}
-                    </div>}
-                    {category!==null && 
-                    <div>
-                        <p className="text-xl font-bold">Details</p>
-                        <input type="text" placeholder="Brand" className="border border-black"/>
-                    </div>}
+    return (
+        <div className="bg-bgBlue w-screen h-full flex flex-col space-y-2 overflow-auto">
+            <MNavbar color={"light"} user={user} />
+            <div className="flex justify-center h-full items-center w-full mt-2 bg-gray-200 py-2 px-2 overflow-hidden">
+                <div className="flex flex-col bg-white bg-opacity-90 rounded-lg shadow-lg p-6 w-full space-y-4 md:w-[50%] overflow-y-auto">
+                    <p className="text-3xl font-extrabold md:text-center text-black py-1">
+                        Add a New Rental Item
+                    </p>
+    
+                    {category === null && (
+                        <div className="p-2 space-y-2">
+                            <p className="p-2">Select the Category</p>
+                            {marketplaceCategories.map((item, key) => (
+                                <button
+                                    key={key}
+                                    className="border-gray-100 flex p-3 text-lg gap-3 hover:bg-gray-100 cursor-pointer w-full"
+                                    onClick={() => setCategory(key)}
+                                >
+                                    <span className="text-2xl">{item.icon}</span>
+                                    {item.category}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+    
+                    {category !== null && (
+                        <div className="flex flex-col space-y-5 mb-4">
+                            <p className="text-xl font-bold">Details</p>
+    
+                            <div className="flex items-center border-b-2 border-gray-300 focus-within:border-black py-3 w-full transition-colors duration-700">
+                                <LiaBoxSolid className="text-xl text-black mr-4" />
+                                <input
+                                    type="text"
+                                    name="product"
+                                    className="flex-1 bg-transparent text-gray-800 px-4 focus:outline-none placeholder:text-gray-500"
+                                    placeholder="Item Name"
+                                    onChange={(e) => setItem(e.target.value || null)}
+                                />
+                            </div>
+    
+                            <div className="flex items-center border-b-2 border-gray-300 focus-within:border-black py-3 w-full transition-colors duration-700">
+                                <LiaRupeeSignSolid className="text-xl text-black mr-4" />
+                                <input
+                                    type="number"
+                                    name="price"
+                                    className="flex-1 bg-transparent text-gray-800 px-4 focus:outline-none placeholder:text-gray-500"
+                                    placeholder="Price"
+                                    onChange={(e) => setPrice(e.target.value || null)}
+                                />
+                            </div>
+    
+                            <div className="flex items-start border-b-2 border-t-2 border-gray-300 focus-within:border-black py-3 w-full transition-colors duration-700">
+                                <LiaPenSolid className="text-xl text-black mr-4 mt-1" />
+                                <textarea
+                                    name="description"
+                                    rows="3"
+                                    className="flex-1 bg-transparent text-gray-800 px-4 focus:outline-none placeholder:text-gray-500 resize-none"
+                                    placeholder="Description"
+                                    onChange={(e) => setDescription(e.target.value || null)}
+                                />
+                            </div>
+    
+                            {/* Image Upload Section */}
+                            <div className="w-full flex items-center justify-center bg-white rounded-lg shadow-md gap-4 h-[30%] p-4">
+                                <div className="grid md:grid-cols-4 grid-cols-1 p-2 gap-2 w-full border-r-2 border-gray-300 h-full overflow-y-auto">
+                                    {images.map((img, key) => (
+                                        <div key={key} className="bg-gray-200 flex justify-between items-center rounded-lg shadow-sm p-2 transition-transform transform hover:scale-105">
+                                            <Image className="rounded" src={URL.createObjectURL(img)} width={70} height={70} alt={`Uploaded image ${key}`} />
+                                            <span onClick={() => handleDelete(key)} className="text-red-500 h-full border-l-2 border-white p-2 flex justify-center items-center cursor-pointer hover:bg-red-100 transition-colors">
+                                                <FaTrash />
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="h-full flex flex-col p-2 justify-between md:w-[20%]">
+                                    <input type="file" multiple className="hidden" id="file-upload" onChange={handleFileChange} />
+                                    <label htmlFor="file-upload" className="bg-blue-600 rounded-md text-sm md:mb-4 p-1 cursor-pointer text-center text-white hover:bg-blue-700 transition-colors">
+                                        Add Image
+                                    </label>
+                                    <div className="w-full h-5 p-1 rounded-lg bg-blue-400 flex">
+                                        <div className="bg-white rounded-lg" style={{ width: `${progress}%` }} />
+                                    </div>
+                                </div>
+                            </div>
+    
+                            {/* Tags Input Section */}
+                            <div className="flex gap-1 items-center border-b-2 border-gray-300 focus-within:border-black py-3 w-full transition-colors duration-700">
+                                <FaTag className="text-xl text-black mr-4" />
+                                <input
+                                    type="text"
+                                    name="price"
+                                    className="bg-transparent text-gray-800 text-sm w-full focus:outline-none placeholder:text-gray-500"
+                                    placeholder="Add tags"
+                                    id="tags"
+                                />
+                                <button className="p-2 bg-blue-600 text-white rounded-sm" onClick={() => {
+                                    handleAddTags(document.getElementById("tags").value);
+                                    document.getElementById("tags").value = "";
+                                }}>Generate</button>
+                                <button className="p-2 bg-blue-600 text-white rounded-sm" onClick={() => setTags([])}>Reset</button>
+                            </div>
+    
+                            <div className="grid md:grid-cols-5 grid-cols-1 min-h-[100px] max-h-[100px] overflow-auto p-2 w-full bg-gray-100 h-auto gap-2 rounded-lg shadow-md border border-gray-300">
+                                {tags.map((tag, index) => (
+                                    <span key={index} className="bg-blue-600 flex items-center justify-between p-2 rounded-full text-white text-sm transition-transform transform hover:scale-105 cursor-pointer">
+                                        {tag}
+                                        <button onClick={() => handleRemoveTag(index)} className="ml-2 text-white hover:text-gray-200 focus:outline-none" aria-label={`Remove tag ${tag}`}>
+                                            &times;
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
+    
+                            <button disabled={!item || images.length === 0 || tags.length === 0 || !description || !cbtn} className="w-full disabled:bg-red-500 bg-blue-600 hover:bg-blue-700 p-1 text-white rounded-lg" onClick={createProduct}>
+                                Create Rental Product
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
-    );
+    );    
 }
-
 /*
 <div className="flex justify-center items-center w-full h-full bg-gray-200 py-2 px-2">
                 <div className="flex flex-col bg-white bg-opacity-90 rounded-lg shadow-lg p-6 w-full space-y-4 md:w-[50%] md:max-h-[98vh] overflow-auto">
