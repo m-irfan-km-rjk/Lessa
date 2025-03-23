@@ -4,10 +4,10 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 
 function ItemCard({ info }) {
     return (
-        <div className="flex border-2 hover:bg-gray-300 transition-colors duration-300 h-full">
+        <div className="flex flex-col md:flex-row border-2 hover:bg-gray-300 transition-colors duration-300 h-50 md:h-48">
             {/* Image container with fixed dimensions */}
             <div className="border-2 bg-gray-300 p-1 flex justify-center items-center">
-                <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] relative overflow-hidden">
+                <div className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] relative overflow-hidden">
                     <Image 
                         src={info.image} 
                         alt="Item Image" 
@@ -15,13 +15,15 @@ function ItemCard({ info }) {
                     />
                 </div>
             </div>
-            <Link href={info.route}>
-                <div className="w-full p-2 space-y-3 text-lg flex flex-col justify-center">
-                    <p className="font-bold">{info.name}</p>
+            <Link href={info.route} className="w-full">
+                <div className="w-full p-2 space-y-2 text-lg flex flex-col justify-center h-full">
+                    {/* Name limited to one line */}
+                    <p className="font-bold truncate w-full max-w-[300px]">{info.name}</p>
                     <div className="flex items-center space-x-1">
                         <LiaRupeeSignSolid /><span>{info.price}</span>
                     </div>
-                    <p>{info.address}</p>
+                    {/* Address remains hidden on small screens */}
+                    <p className="hidden md:block text-sm truncate">{info.address}</p>
                 </div>
             </Link>
         </div>

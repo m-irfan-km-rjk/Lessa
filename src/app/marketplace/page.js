@@ -58,7 +58,7 @@ function Marketplace() {
                         <div className="flex justify-center items-center text-lg gap-2"><IoFilter/>Filter</div>
                         <div className=""></div>
                     </div>
-                    <div className="border-black border-[1px] md:w-[80%] h-auto grid-cols-1 p-1">
+                    <div className="border-black border-[1px] md:w-[80%] h-auto md:grid-cols-1 grid grid-cols-2 p-1">
                         {products &&
                             products.map(({ id, image, price, name, address, route }) => (
                                 <div key={id} className="h-full">

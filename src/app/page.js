@@ -18,10 +18,10 @@ export default function Home() {
           </div>
           
         </div>
-        <Image className="md:w-[600px] overflow-hidden rounded-lg" src={"/clip_art.png"} width={400} height={400}/>
+        <Image className="md:w-[600px] overflow-hidden rounded-lg" placeholder="blur" src={"/clip_art.png"} width={400} height={400}/>
       </div>
       <div className="flex md:flex-row flex-col justify-between gap-2 items-center w-full bg-white p-4">
-        <Image className="rounded-lg" src={"/clip_art_furniture.jpg"} width={500} height={500}/>
+        <Image className="rounded-lg" src={"/clip_art_furniture.jpg"} placeholder="blur" width={500} height={500}/>
         <div className="w-[100%] md:h-[500px] border-black  border-2 rounded-lg p-3 justify-center items-center">
           <p className="text-3xl text-left font-bold py-4">Discover the Convinence</p>
           <p className="text-sm py-3">Revolutionize your lifestyle: rent anything, anytime. Our user-to-user platform gives you instant access to a wide range of items, from tools to luxury goods. Quick, easy, and affordable—no long-term commitments. Connect with local users and rent what you need, when you need it.</p>
