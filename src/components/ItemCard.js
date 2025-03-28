@@ -4,10 +4,10 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 
 function ItemCard({ info }) {
     return (
-        <div className="flex flex-col md:flex-row border-2 hover:bg-gray-300 transition-colors duration-300 h-50 md:h-48">
+        <div className="flex md:flex-col flex-row border-2 hover:bg-gray-300 transition-colors duration-300 md:h-70 h-35">
             {/* Image container with fixed dimensions */}
-            <div className="border-2 bg-gray-300 p-1 flex justify-center items-center">
-                <div className="w-[100px] h-[100px] md:w-[150px] md:h-[150px] relative overflow-hidden">
+            <div className="border-2 bg-black p-1 flex justify-center items-center">
+                <div className="w-[130px] h-[130px] md:w-[160px] md:h-[160px] relative overflow-hidden">
                     <Image 
                         src={info.image} 
                         alt="Item Image" 
@@ -15,15 +15,15 @@ function ItemCard({ info }) {
                     />
                 </div>
             </div>
-            <Link href={info.route} className="w-full">
-                <div className="w-full p-2 space-y-2 text-lg flex flex-col justify-center h-full">
+            <Link href={info.route || "/marketplace/product"+info.id} className="w-full">
+                <div className="w-full p-2 space-y-2 md:text-lg text-xs flex flex-col justify-center h-full">
                     {/* Name limited to one line */}
-                    <p className="font-bold truncate w-full max-w-[300px]">{info.name}</p>
+                    <p className="font-bold truncate w-full max-w-[140px] md:max-w-[240px]">{info.name}</p>
                     <div className="flex items-center space-x-1">
                         <LiaRupeeSignSolid /><span>{info.price}</span>
                     </div>
                     {/* Address remains hidden on small screens */}
-                    <p className="hidden md:block text-sm truncate">{info.address}</p>
+                    <p className="text-xs truncate">{info.address[1]}</p>
                 </div>
             </Link>
         </div>

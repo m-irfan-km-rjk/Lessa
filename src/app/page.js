@@ -1,10 +1,27 @@
+"use client";
 
 import MNavbar from "@/components/MNavbar";
 import Image from "next/image";
 import Link from "next/link";
 import { auth } from "../../config";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+        if (user) {
+            setUser(user);
+            console.log(user);
+        } else {
+            router.push("/login");
+        }
+    });
+
+    return () => unsubscribe();
+}, []);
+
   return (
     <div className="w-full justify-center items-center bg-bgBlue">
       <MNavbar user={auth.currentUser} color={"light"}/>
@@ -14,14 +31,14 @@ export default function Home() {
           <p className="text-white text-center md:text-left md:my-5 my-7">Unlock a world of endless Possibilities</p>
           <div className="md:justify-normal md:gap-5 flex justify-between py-4">
             <button className="rounded-lg p-2 px-4 bg-white hover:bg-gray-200 text-gray-500">Rent Now</button>
-            <button className="rounded-lg p-2 px-4 bg-blue-600 hover:bg-blue-800 text-white">Join Today</button>
+            <Link href={"/marketplace"}><button className="rounded-lg p-2 px-4 bg-blue-600 hover:bg-blue-800 text-white">Go to Marketplace</button></Link>
           </div>
           
         </div>
-        <Image className="md:w-[600px] overflow-hidden rounded-lg" placeholder="blur" src={"/clip_art.png"} width={400} height={400}/>
+        <Image className="md:w-[600px] overflow-hidden rounded-lg" src={"/clip_art.png"} width={400} height={400}/>
       </div>
       <div className="flex md:flex-row flex-col justify-between gap-2 items-center w-full bg-white p-4">
-        <Image className="rounded-lg" src={"/clip_art_furniture.jpg"} placeholder="blur" width={500} height={500}/>
+        <Image className="rounded-lg" src={"/clip_art_furniture.jpg"} width={500} height={500}/>
         <div className="w-[100%] md:h-[500px] border-black  border-2 rounded-lg p-3 justify-center items-center">
           <p className="text-3xl text-left font-bold py-4">Discover the Convinence</p>
           <p className="text-sm py-3">Revolutionize your lifestyle: rent anything, anytime. Our user-to-user platform gives you instant access to a wide range of items, from tools to luxury goods. Quick, easy, and affordable—no long-term commitments. Connect with local users and rent what you need, when you need it.</p>

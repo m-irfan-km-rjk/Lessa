@@ -7,8 +7,6 @@ export async function GET(request) {
     const noi = searchParams.get('noi');
 
     const products_snap = await getDocs(collection(firestore, "products"));
-    
-    // Use Promise.all to resolve all async operations inside map
     const products = await Promise.all(
         products_snap.docs
             .filter((doc) => doc.id !== "all_products")
@@ -21,9 +19,8 @@ export async function GET(request) {
                 }
 
                 const author = authorSnap.data();
-                const address = author.address?.join(" ") || "Unknown";
                 
-                return { name: data.name, price: data.price, address, image: data.imgurls[0], route: `/marketplace/product/${docSnap.id}`};
+                return { name: data.name, price: data.price, address: author.address, image: data.imgurls[0], route: `/marketplace/product/${docSnap.id}`};
             })
     );
 
