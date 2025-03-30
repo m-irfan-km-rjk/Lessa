@@ -6,7 +6,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
-import { LiaRupeeSignSolid } from "react-icons/lia";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { FaRupeeSign } from "react-icons/fa";
 
 export default function ProductID({ params }) {
   const [user, setUser] = useState(null);
@@ -41,83 +47,53 @@ export default function ProductID({ params }) {
   }, [productId]);
 
   return (
-    <div className="bg-bgBlue w-screen h-screen flex flex-col space-y-2">
+    <div className="bg-bgBlue w-screen h-screen flex flex-col">
       <MNavbar color={"light"} user={user} />
-      <div className="flex flex-col space-y-1 w-full h-full bg-gray-200 px-10 py-2 overflow-auto hide-scroll" id="content">
-        <div className="flex flex-col w-full bg-white p-4" id="product_info">
+
+      <div className="flex flex-col w-full h-full bg-gray-200 py-4 overflow-auto hide-scroll items-center">
+
+        <div className="flex flex-col w-[90%] bg-white p-6 rounded-lg shadow-lg">
           {product === "NSP" ? (
-            <p className="text-2xl font-extrabold">NO SUCH PRODUCT</p>
+            <p className="text-2xl font-extrabold text-center">NO SUCH PRODUCT</p>
           ) : product === null && img === null ? (
-            <p className="text-2xl font-extrabold">Loading product</p>
+            <p className="text-2xl font-extrabold text-center">Loading product...</p>
           ) : (
-            <div className="flex w-full space-x-3">
-              {/* Main Image Section */}
-              <div className="flex w-[70%] flex-col border-2">
-                <div className="flex w-full">
-                  <div className="relative flex aspect-square items-center justify-center overflow-hidden">
-                    {/* Main Image */}
-                    <Image
-                      src={img || product.imgurls[0]} // Display selected image
-                      alt="Selected Product"
-                      className="object-contain"
-                      width={500}
-                      height={500}
-                      priority // Ensure main image is loaded immediately
+            <div className="flex w-full bg-black rounded-lg overflow-hidden shadow-md">
+              <Swiper
+                className="w-full"
+                modules={[Navigation, Pagination, Scrollbar, A11y]}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={10}
+                slidesPerView={1}
+              >
+                {product.imgurls.map((item) => (
+                  <SwiperSlide key={item} className="flex w-full justify-center items-center">
+                    <img
+                      src={item}
+                      alt="Product Image"
+                      className="w-full md:h-[500px] object-contain pointer-events-none select-none"
                     />
-                  </div>
-                  <div className="grid grid-cols-1 p-1 h-full w-[20%] overflow-auto hide-scroll">
-                    {/* Thumbnails */}
-                    {product.imgurls.map((item, key) => (
-                      <div
-                        className="w-full flex items-center justify-center border-2 bg-white relative overflow-hidden"
-                        key={key}
-                        onClick={() => setImg(item)} // Update main image
-                      >
-                        {/* Use the same source as the main image */}
-                        <Image
-                          src={item}
-                          alt={`Product image ${key + 1}`}
-                          className="object-contain transition-transform duration-200 hover:scale-105"
-                          width={80} // Thumbnail size
-                          height={80}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <hr />
-                <div className="flex p-2 space-x-4">
-                  <button className="bg-green-500 p-3 rounded-md flex-1 text-white font-bold hover:bg-green-300 hover:text-black">
-                    Rent Item
-                  </button>
-                  <button className="bg-green-500 p-3 rounded-md flex-1 text-white font-bold hover:bg-green-300 hover:text-black">
-                    Contact Owner
-                  </button>
-                </div>
-              </div>
-              {/* Product Details Section */}
-              <div className="p-1 space-y-3 w-full h-full">
-                <p className="text-4xl font-extrabold">{product.name}</p>
-                <div className="flex items-center">
-                  <LiaRupeeSignSolid />
-                  <p className="text-2xl font-extrabold">{product.price}</p>
-                </div>
-                <hr />
-                <div
-                  style={{ whiteSpace: "pre-wrap" }}
-                  className="text-sm"
-                >
-                  {product.description}
-                </div>
-              </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           )}
         </div>
-        <div className="flex w-full bg-white p-3">
-          <div className="">
-            
+
+        {/* Product Info Section */}
+        {(product && product !== "NSP") && <div className="flex flex-col w-[90%] bg-white p-6 mt-4 rounded-lg shadow-lg space-y-3">
+          <p className="text-3xl font-bold text-gray-900">{product?.name}</p>
+
+          <div className="flex items-center text-xl font-bold space-x-1">
+            <FaRupeeSign className="text-lg" />
+            <span>{product?.price}</span>
           </div>
-        </div>
+
+          <p className="text-base text-gray-600">{product?.description}</p>
+        </div>}
+
+        
       </div>
     </div>
   );
