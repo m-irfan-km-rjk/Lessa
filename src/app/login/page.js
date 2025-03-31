@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaUser, FaLock } from "react-icons/fa";
 import { doc, getDoc } from "firebase/firestore";
+import Link from "next/link";
 
 function Login() {
     const [mail, setMail] = useState(null);
@@ -67,6 +68,7 @@ function Login() {
                     <button className="bg-blue-600 w-full rounded-lg text-white p-3 text-lg font-bold hover:bg-blue-500" onClick={signInWithEmail}>
                         Login
                     </button>
+                    <p>Already have an account? <Link href={"/profile/create"} className="text-lg text-blue-500 font-bold">Sign in</Link></p>
                 </div>
             </div>
         </div>

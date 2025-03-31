@@ -6,8 +6,8 @@ function ItemCard({ info }) {
     return (
         <div className="flex md:flex-col flex-row border-2 hover:bg-gray-300 transition-colors duration-300 md:h-70 h-35 rounded-lg">
             {/* Image container with fixed dimensions */}
-            <div className="border-2 bg-black p-2 flex justify-center items-center">
-                <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] relative overflow-hidden">
+            <div className="border-2 bg-black p-1 flex justify-center items-center">
+                <div className="w-[130px] h-[130px] md:w-[160px] md:h-[160px] relative overflow-hidden">
                     <Image 
                         src={info.image} 
                         alt="Item Image" 
