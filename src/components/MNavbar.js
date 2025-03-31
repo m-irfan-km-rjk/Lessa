@@ -18,7 +18,7 @@ export default function MNavbar({user,color,search}) {
                 <Link href="#" className="p-2 md:px-3">About</Link>
                 <Link href="#" className="p-2 md:px-3">Rentals</Link>
                 <Link href="#" className="p-2 md:px-3">Contact</Link>
-                {(user)?<Image src={user.photoURL} className="rounded-full p-1" width={50} height={50}/>:<button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Login</button>}
+                {(user)?<Image src={user.photoURL} className="rounded-full p-1" width={50} height={50}/>:<Link><button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Login</button></Link>}
             </nav>
         </div>
     </div>
