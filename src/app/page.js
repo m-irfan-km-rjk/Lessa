@@ -13,7 +13,6 @@ export default function Home() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
         if (user) {
             setUser(user);
-            console.log(user);
         } else {
             router.push("/login");
         }

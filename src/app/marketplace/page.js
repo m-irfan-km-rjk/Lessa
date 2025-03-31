@@ -42,9 +42,9 @@ export default function Marketplace() {
 
     return (
         <div className="bg-bgBlue w-screen flex flex-col overflow-auto min-h-screen">
-            <MNavbar color="light" user={user} />
+            <MNavbar color="light" user={user} search={"true"}/>
 
-            <div className="flex flex-col md:flex-row justify-center items-start gap-4 w-full h-full mt-4 bg-gray-200 p-4">
+            {products?<div className="flex flex-col md:flex-row justify-center items-start gap-4 w-full h-full  bg-gray-200 p-4">
                 
                 {/* Filter Sidebar */}
                 <div className="md:flex flex-col md:w-1/3 w-full bg-white rounded-lg shadow-md items-center p-4 hidden">
@@ -65,7 +65,7 @@ export default function Marketplace() {
                             ))}
                     </div>
                 </div>
-            </div>
+            </div>:<div className="flex justify-center items-start w-full h-screen bg-gray-200 p-4"><div className="bg-white w-full p-2 font-bold text-center rounded-lg">Loading</div></div>}
         </div>
     );
 }
