@@ -68,7 +68,7 @@ function Login() {
                     <button className="bg-blue-600 w-full rounded-lg text-white p-3 text-lg font-bold hover:bg-blue-500" onClick={signInWithEmail}>
                         Login
                     </button>
-                    <p>Already have an account? <Link href={"/profile/create"} className="text-lg text-blue-500 font-bold">Sign in</Link></p>
+                    <p>Don't have an account? <Link href={"/profile/create"} className="text-lg text-blue-500 font-bold">Sign up</Link></p>
                 </div>
             </div>
         </div>
