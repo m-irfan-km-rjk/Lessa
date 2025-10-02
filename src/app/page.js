@@ -1,55 +1,191 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { MFooter } from "@/components/MFooter";
 import MNavbar from "@/components/MNavbar";
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "../../config";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { IoArrowDown } from "react-icons/io5";
 
 export default function Home() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-        if (user) {
-            setUser(user);
-        } else {
-            router.push("/login");
-        }
-    });
-
-    return () => unsubscribe();
-}, []);
+  // Example categories (replace icons/images with your own)
+  const categories = [
+    { name: "Electronics", image: "/categories/electronics.png", link: "/categories/electronics" },
+    { name: "Clothes", image: "/categories/clothes.png", link: "/categories/fashion" },
+    { name: "Home & Living", image: "/categories/home.png", link: "/categories/home" },
+    { name: "Sports", image: "/categories/sports.png", link: "/categories/sports" },
+    { name: "Books", image: "/categories/books.png", link: "/categories/books" },
+    { name: "Tools", image: "/categories/tools.png", link: "/categories/tools" },
+    { name: "Vehicles", image: "/categories/vehicles.png", link: "/categories/vehicles" },
+    { name: "Event & Party Supplies", image: "/categories/events.png", link: "/categories/events-party-stuff" },
+  ];
 
   return (
-    <div className="w-full justify-center items-center bg-bgBlue">
-      <MNavbar user={auth.currentUser} color={"light"}/>
-      <div className="flex flex-col md:flex-row justify-between items-center md:p-10">
-        <div className="p-4">
-          <p className="text-white font-bold font-serif py-3 md:py-2 md:text-5xl text-3xl text-center md:text-left">Discover Endless Possiblilities</p>
-          <p className="text-white text-center md:text-left md:my-5 my-7">Unlock a world of endless Possibilities</p>
-          <div className="md:justify-normal md:gap-5 flex justify-between py-4">
-            <button className="rounded-lg p-2 px-4 bg-white hover:bg-gray-200 text-gray-500">Rent Now</button>
-            <Link href={"/marketplace"}><button className="rounded-lg p-2 px-4 bg-blue-600 hover:bg-blue-800 text-white">Go to Marketplace</button></Link>
-          </div>
-          
+    <div className="min-h-screen flex flex-col">
+      {/* Navbar */}
+      <MNavbar user={user} color="light" search={true} />
+
+      {/* Hero Section */}
+<div className="relative min-h-screen bg-[url('/home_bg1.png')] bg-cover bg-center flex items-center justify-center">
+  {/* Gradient overlay */}
+  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+
+  {/* Content */}
+  <div className="relative text-center px-6 md:px-16 py-12 rounded-xl max-w-3xl h-full animate-fadeIn">
+    <h1 className="font-serif text-white text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
+      LESSA
+    </h1>
+    <h4 className="text-white text-xl md:text-2xl font-bold mb-6 drop-shadow">
+      Discover and Rent Your Favorite Items
+    </h4>
+    <button className="mt-4 border-white border-2 px-8 py-4 hover:bg-white hover:text-black text-white font-bold rounded-lg shadow-xl transform transition hover:scale-105">
+      Shop Now
+    </button>
+  </div>
+
+  {/* Scroll down arrow - fixed at bottom */}
+  {/* Scroll down arrow - fixed at bottom */}
+<div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+  <button
+    onClick={() => {
+      document.getElementById("featured")?.scrollIntoView({ 
+        behavior: "smooth" 
+      });
+    }}
+  >
+    <IoArrowDown className="text-white text-4xl animate-bounce cursor-pointer" />
+  </button>
+</div>
+
+
+  {/* Animation */}
+  <style jsx>{`
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease-out forwards;
+    }
+  `}</style>
+</div>
+
+
+      {/* Scrolling Highlights */}
+      <div className="overflow-hidden bg-black">
+        <div className="whitespace-nowrap animate-marquee py-3">
+          <span className="mx-8 font-bold text-white">🔥 Free delivery on rentals over Rs.500!</span>
+          <span className="mx-8 font-bold text-white">✨ Rent electronics, clothes & more today!</span>
+          <span className="mx-8 font-bold text-white">💡 Discover new items every week!</span>
+          <span className="mx-8 font-bold text-white">🎉 Special discounts on seasonal items!</span>
+          <span className="mx-8 font-bold text-white">📦 Easy doorstep delivery & returns!</span>
+          <span className="mx-8 font-bold text-white">🛠️ Tools available for rent at amazing rates!</span>
+          <span className="mx-8 font-bold text-white">🚗 Rent vehicles for short trips hassle-free!</span>
+          <span className="mx-8 font-bold text-white">🎁 Party supplies delivered on time!</span>
+
+          {/* Duplicate content for seamless scroll */}
+          <span className="mx-8 font-bold text-white">🔥 Free delivery on rentals over Rs.500!</span>
+          <span className="mx-8 font-bold text-white">✨ Rent electronics, clothes & more today!</span>
+          <span className="mx-8 font-bold text-white">💡 Discover new items every week!</span>
+          <span className="mx-8 font-bold text-white">🎉 Special discounts on seasonal items!</span>
+          <span className="mx-8 font-bold text-white">📦 Easy doorstep delivery & returns!</span>
+          <span className="mx-8 font-bold text-white">🛠️ Tools available for rent at amazing rates!</span>
+          <span className="mx-8 font-bold text-white">🚗 Rent vehicles for short trips hassle-free!</span>
+          <span className="mx-8 font-bold text-white">🎁 Party supplies delivered on time!</span>
         </div>
-        <Image className="md:w-[600px] overflow-hidden rounded-lg" src={"/clip_art.png"} width={400} height={400}/>
+
+        <style jsx>{`
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+  `}</style>
       </div>
-      <div className="flex md:flex-row flex-col justify-between gap-2 items-center w-full bg-white p-4">
-        <Image className="rounded-lg" src={"/clip_art_furniture.jpg"} width={500} height={500}/>
-        <div className="w-[100%] md:h-[500px] border-black  border-2 rounded-lg p-3 justify-center items-center">
-          <p className="text-3xl text-left font-bold py-4">Discover the Convinence</p>
-          <p className="text-sm py-3">Revolutionize your lifestyle: rent anything, anytime. Our user-to-user platform gives you instant access to a wide range of items, from tools to luxury goods. Quick, easy, and affordable—no long-term commitments. Connect with local users and rent what you need, when you need it.</p>
-          <Link className="text-blue-600" href="#">Explore Now</Link>
-          <p className="text-3xl text-left font-bold py-4">Rent Anything</p>
-          <p className="text-sm py-3">Unlock a world of possibilities with our user-to-user platform. Rent what you need, when you need it—quick, flexible, and hassle-free. From everyday items to luxury goods, enjoy easy access without the commitment of ownership.</p>
-          <Link className="text-blue-600" href="#">Join Us</Link>
-          <p className="text-3xl text-left font-bold py-4">How it Works</p>
-          <p className="text-sm py-3">Our platform makes renting easy. Browse items from trusted users, set rental terms that fit your needs, and book securely. Use the item, then return it when you're done—quick, simple, and hassle-free.</p>
-          <Link className="text-blue-600" href="#">Learn More</Link>
+
+
+      {/* Featured Categories */}
+      <motion.div
+        id="featured"
+        className="py-10 bg-gray-50"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h2 className="text-3xl font-bold text-center mb-12">Featured Categories</h2>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-4 mb-10">
+          {categories.map((cat) => (
+            <motion.div
+              key={cat.name}
+              className="relative group overflow-hidden rounded-xl shadow-lg transform transition hover:scale-125"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <Link href={cat.link}>
+                <div className="absolute inset-0 hover:scale-110">
+                  <Image src={cat.image} alt={cat.name} fill className="object-cover rounded-xl" />
+                  <div className="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-40 transition"></div>
+                </div>
+                <div className="relative p-6 flex flex-col items-center justify-center h-40 text-center text-white font-bold text-lg">
+                  {cat.name}
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
+
+
+      {/* How Lessa Works */}
+      <motion.div
+        className="bg-blue-900 py-20 text-center font-sans"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8 }}
+      >
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-16 text-white tracking-tight">
+          How Lessa Works
+        </h2>
+
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 px-4">
+          {[
+            { icon: "🛒", title: "Browse Items", desc: "Explore thousands of items available for rent across multiple categories.", bg: "bg-blue-500" },
+            { icon: "📦", title: "Select & Rent", desc: "Choose your item, select rental duration, and place your order easily.", bg: "bg-green-500" },
+            { icon: "🚚", title: "Receive & Enjoy", desc: "Get your items delivered to your doorstep and enjoy using them.", bg: "bg-yellow-500" },
+            { icon: "🔄", title: "Return Easily", desc: "Return items conveniently once you're done, hassle-free.", bg: "bg-pink-500" },
+          ].map((step, i) => (
+            <motion.div
+              key={step.title}
+              className={`p-8 ${step.bg} rounded-xl shadow-xl transform transition hover:scale-105 hover:shadow-2xl text-white`}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: i * 0.2 }}
+            >
+              <div className="text-4xl mb-4 animate-bounce">{step.icon}</div>
+              <h3 className="font-bold text-2xl md:text-3xl mb-2 tracking-wide">{step.title}</h3>
+              <p className="text-white/90 text-sm md:text-base">{step.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+
+
+
+
+      {/* Footer */}
+      <MFooter />
     </div>
   );
 }
