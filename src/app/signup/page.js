@@ -2,8 +2,39 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import client from "../../api/client";
 
 export default function SignupPage() {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    if (userName === "" || email === "" || password === "" || confirmPassword === "") {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const { data, error } = client.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          userName: userName,
+        },
+      },
+    }).then((data, error) => {
+      console.log(data, error);
+    })
+  }
   return (
     <div className="min-h-screen bg-[url('/home_bg1.png')] bg-cover bg-center flex items-center justify-center relative p-5">
       {/* Gradient Overlay */}
@@ -31,31 +62,40 @@ export default function SignupPage() {
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
             type="text"
-            placeholder="Full Name"
+            placeholder="Username"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
             type="email"
             placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
             type="password"
             placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
           />
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            type="submit"
+            type="button"
+            onClick={handleSignup}
             className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:opacity-90 transition"
           >
             Sign Up
