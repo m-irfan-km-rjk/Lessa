@@ -3,15 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import client from "../../api/client";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     if (userName === "" || email === "" || password === "" || confirmPassword === "") {
       alert("Please fill in all fields");
@@ -23,18 +25,36 @@ export default function SignupPage() {
       return;
     }
 
-    const { data, error } = client.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          userName: userName,
-        },
-      },
-    }).then((data, error) => {
-      console.log(data, error);
-    })
-  }
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          options: {
+            data: {
+              userName: userName,
+            },
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Signup successful! Please check your email for confirmation.");
+        router.push("/login");
+      } else {
+        alert(data.error || "Signup failed");
+      }
+    } catch (error) {
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[url('/home_bg1.png')] bg-cover bg-center flex items-center justify-center relative p-5">
       {/* Gradient Overlay */}
@@ -58,7 +78,7 @@ export default function SignupPage() {
         </h2>
 
         {/* Form */}
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSignup}>
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
             type="text"
@@ -66,6 +86,7 @@ export default function SignupPage() {
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
@@ -74,6 +95,7 @@ export default function SignupPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
@@ -82,6 +104,7 @@ export default function SignupPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
           />
           <motion.input
             whileFocus={{ scale: 1.02, borderColor: "#facc15" }}
@@ -90,15 +113,16 @@ export default function SignupPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            required
           />
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            type="button"
-            onClick={handleSignup}
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:opacity-90 transition"
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:opacity-90 transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign Up"}
           </motion.button>
         </form>
 

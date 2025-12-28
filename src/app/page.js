@@ -5,11 +5,12 @@ import { MFooter } from "@/components/MFooter";
 import MNavbar from "@/components/MNavbar";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext } from "react";
 import { IoArrowDown } from "react-icons/io5";
+import { AuthContext } from "@/components/context/AuthProvider";
 
 export default function Home() {
-  const [user, setUser] = useState(null);
+  const { user } = useContext(AuthContext);
 
   // Example categories (replace icons/images with your own)
   const categories = [
@@ -29,40 +30,40 @@ export default function Home() {
       <MNavbar user={user} color="light" search={true} />
 
       {/* Hero Section */}
-<div className="relative min-h-screen bg-[url('/home_bg1.png')] bg-cover bg-center flex items-center justify-center">
-  {/* Gradient overlay */}
-  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+      <div className="relative min-h-screen bg-[url('/home_bg1.png')] bg-cover bg-center flex items-center justify-center">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
 
-  {/* Content */}
-  <div className="relative text-center px-6 md:px-16 py-12 rounded-xl max-w-3xl h-full animate-fadeIn">
-    <h1 className="font-serif text-white text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
-      LESSA
-    </h1>
-    <h4 className="text-white text-xl md:text-2xl font-bold mb-6 drop-shadow">
-      Discover and Rent Your Favorite Items
-    </h4>
-    <button className="mt-4 border-white border-2 px-8 py-4 hover:bg-white hover:text-black text-white font-bold rounded-lg shadow-xl transform transition hover:scale-105">
-      Shop Now
-    </button>
-  </div>
+        {/* Content */}
+        <div className="relative text-center px-6 md:px-16 py-12 rounded-xl max-w-3xl h-full animate-fadeIn">
+          <h1 className="font-serif text-white text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
+            LESSA
+          </h1>
+          <h4 className="text-white text-xl md:text-2xl font-bold mb-6 drop-shadow">
+            Discover and Rent Your Favorite Items
+          </h4>
+          <button className="mt-4 border-white border-2 px-8 py-4 hover:bg-white hover:text-black text-white font-bold rounded-lg shadow-xl transform transition hover:scale-105">
+            Shop Now
+          </button>
+        </div>
 
-  {/* Scroll down arrow - fixed at bottom */}
-  {/* Scroll down arrow - fixed at bottom */}
-<div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
-  <button
-    onClick={() => {
-      document.getElementById("featured")?.scrollIntoView({ 
-        behavior: "smooth" 
-      });
-    }}
-  >
-    <IoArrowDown className="text-white text-4xl animate-bounce cursor-pointer" />
-  </button>
-</div>
+        {/* Scroll down arrow - fixed at bottom */}
+        {/* Scroll down arrow - fixed at bottom */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2">
+          <button
+            onClick={() => {
+              document.getElementById("featured")?.scrollIntoView({
+                behavior: "smooth"
+              });
+            }}
+          >
+            <IoArrowDown className="text-white text-4xl animate-bounce cursor-pointer" />
+          </button>
+        </div>
 
 
-  {/* Animation */}
-  <style jsx>{`
+        {/* Animation */}
+        <style jsx>{`
     @keyframes fadeIn {
       0% { opacity: 0; transform: translateY(20px); }
       100% { opacity: 1; transform: translateY(0); }
@@ -71,7 +72,7 @@ export default function Home() {
       animation: fadeIn 1s ease-out forwards;
     }
   `}</style>
-</div>
+      </div>
 
 
       {/* Scrolling Highlights */}
