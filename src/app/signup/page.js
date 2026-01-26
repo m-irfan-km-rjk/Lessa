@@ -21,7 +21,8 @@ export default function SignupPage() {
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      alert("Passwords do not match");//testing 
+      
       return;
     }
 
